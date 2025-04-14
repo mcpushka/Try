@@ -4,27 +4,10 @@ const globe = Globe()
   .pointAltitude(0.01)
   .pointColor(() => 'red')
   .pointRadius(0.15)
-  .pointsData([]);
+  .pointsData([
+    { lat: 51.5, lng: -0.1 },  // Лондон
+    { lat: 40.7, lng: -74.0 }, // Нью-Йорк
+    { lat: 55.75, lng: 37.6 }, // Москва
+  ]);
 
 document.getElementById('globeViz').appendChild(globe());
-
-// 🔄 Автоматическое обновление точек с сервера
-async function fetchData() {
-  try {
-    const res = await fetch('http://localhost:5000/data');  // Адрес API
-    const data = await res.json();
-
-    const coords = data.map(item => ({
-      lat: item.lat,
-      lng: item.lon
-    }));
-
-    globe.pointsData(coords);
-  } catch (err) {
-    console.error('Ошибка при загрузке данных:', err);
-  }
-}
-
-// Обновляем каждые 2 секунды
-setInterval(fetchData, 2000);
-fetchData();  // первичная загрузка
